@@ -5,7 +5,7 @@ namespace Controllers
 {
     public class PlayerHandController : MonoBehaviour
     {
-        public PlayerAheadObjectProvider aheadObjectProvider;
+        [SerializeField] private PlayerAheadObjectProvider aheadObjectProvider;
 
         private GameObject _pickedItem;
         private bool IsItemPicked => _pickedItem != null;
@@ -24,7 +24,7 @@ namespace Controllers
                 yield return null;
             }
         }
-        
+
         private void PickOrDropItem()
         {
             if (IsItemPicked) DropItem();

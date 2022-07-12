@@ -5,21 +5,19 @@ namespace Controllers
 {
     public class PlayerMovementController : MonoBehaviour
     {
-        public float speed;
-
-        public Transform rotation;
-        
-        public Vector3 moveDirection = Vector3.zero;
+        [SerializeField] private float speed;
+        [SerializeField] private Transform rotation;
+        [SerializeField] private Vector3 moveDirection = Vector3.zero;
 
         private Rigidbody _rigidbody;
 
         private float _horizontalInput;
         private float _verticalInput;
-        
+
         private void Start()
         {
             _rigidbody = GetComponent<Rigidbody>();
-            
+
             StartCoroutine(ObserveMovementKeys());
             StartCoroutine(MovePlayer());
         }

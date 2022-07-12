@@ -5,16 +5,15 @@ namespace Controllers
 {
     public class PlayerCamera : MonoBehaviour
     {
+        [SerializeField] private float xSensitivity = 1f;
+        [SerializeField] private float ySensitivity = 1f;
 
-        public float xSensitivity = 1f;
-        public float ySensitivity = 1f;
+        [SerializeField] private Transform playerRotation;
 
-        public Transform playerRotation;
+        private float _xRotation;
+        private float _yRotation;
 
-        public float xRotation;
-        public float yRotation;
-    
-        void Start()
+        private void Start()
         {
             StartCoroutine(CameraMovementListener());
         }
@@ -26,13 +25,13 @@ namespace Controllers
                 var mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * xSensitivity;
                 var mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * ySensitivity;
 
-                yRotation += mouseX;
-                xRotation -= mouseY;
-                xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-            
-                transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
-                playerRotation.rotation = Quaternion.Euler(0, yRotation, 0);
-            
+                _yRotation += mouseX;
+                _xRotation -= mouseY;
+                _xRotation = Mathf.Clamp(_xRotation, -90f, 90f);
+
+                transform.rotation = Quaternion.Euler(_xRotation, _yRotation, 0);
+                playerRotation.rotation = Quaternion.Euler(0, _yRotation, 0);
+
                 yield return null;
             }
         }

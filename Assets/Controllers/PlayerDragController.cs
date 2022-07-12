@@ -5,9 +5,9 @@ namespace Controllers
 {
     public class PlayerDragController : MonoBehaviour
     {
-        public LayerMask groundLayer;
-        public float playerHeight;
-        public float groundDrag;
+        [SerializeField] private LayerMask groundLayer;
+        [SerializeField] private float playerHeight;
+        [SerializeField] private float groundDrag;
 
         private float _groundRayLength;
         private bool _isGrounded;

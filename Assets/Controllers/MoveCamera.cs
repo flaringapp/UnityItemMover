@@ -5,8 +5,7 @@ namespace Controllers
 {
     public class MoveCamera : MonoBehaviour
     {
-
-        public Transform dependency;
+        [SerializeField] private Transform dependency;
 
         private void Start()
         {

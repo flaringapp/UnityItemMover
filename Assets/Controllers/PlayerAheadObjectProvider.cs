@@ -3,15 +3,14 @@ using UnityEngine;
 
 namespace Controllers
 {
-    
     public class PlayerAheadObjectProvider : MonoBehaviour
     {
-        public LayerMask itemMask;
-        public Camera playerCamera;
-        public float maxDistance;
-        
+        [SerializeField] private LayerMask itemMask;
+        [SerializeField] private Camera playerCamera;
+        [SerializeField] private float maxDistance;
+
         private readonly Vector2 _screenCenterPos = new(Screen.width / 2f, Screen.height / 2f);
-        
+
         public GameObject ObjectAhead { get; private set; }
 
         private void Start()
@@ -43,7 +42,7 @@ namespace Controllers
         {
             if (ReferenceEquals(ObjectAhead, foundObjectAhead)) return;
             ObjectAhead = foundObjectAhead;
-            
+
             print("Object ahead: " + ObjectAhead.name);
         }
     }
