@@ -22,8 +22,8 @@ namespace Controllers
         {
             while (true)
             {
-                var mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * xSensitivity;
-                var mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * ySensitivity;
+                var mouseX = Input.GetAxis("Mouse X") * xSensitivity;
+                var mouseY = Input.GetAxis("Mouse Y") * ySensitivity;
 
                 _yRotation += mouseX;
                 _xRotation -= mouseY;
