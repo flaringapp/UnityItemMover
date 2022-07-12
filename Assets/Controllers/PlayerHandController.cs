@@ -6,9 +6,9 @@ namespace Controllers
     public class PlayerHandController : MonoBehaviour
     {
         [SerializeField] private PlayerAheadObjectProvider aheadObjectProvider;
+        [SerializeField] private ItemInHandController itemInHandController;
 
-        private GameObject _pickedItem;
-        private bool IsItemPicked => _pickedItem != null;
+        private bool IsItemPicked => itemInHandController.HasItem;
 
         private void Start()
         {
@@ -31,25 +31,19 @@ namespace Controllers
             else PickItem();
         }
 
+        // ReSharper disable Unity.PerformanceAnalysis
         private void PickItem()
         {
             var itemAhead = aheadObjectProvider.ObjectAhead;
-            print("Item ahead: " + itemAhead);
             if (ReferenceEquals(itemAhead, null)) return;
 
-            _pickedItem = itemAhead;
-
-            print("Item picked: " + itemAhead);
+            var itemRigidbody = itemAhead.GetComponent<Rigidbody>();
+            itemInHandController.TakeItem(itemRigidbody);
         }
 
         private void DropItem()
         {
-            var pickedItem = _pickedItem;
-            if (ReferenceEquals(pickedItem, null)) return;
-
-            _pickedItem = null;
-
-            print("Item dropped: " + pickedItem);
+            itemInHandController.DropItem();
         }
     }
 }

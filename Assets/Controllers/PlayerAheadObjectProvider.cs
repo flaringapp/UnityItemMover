@@ -9,8 +9,6 @@ namespace Controllers
         [SerializeField] private Camera playerCamera;
         [SerializeField] private float maxDistance;
 
-        private readonly Vector2 _screenCenterPos = new(Screen.width / 2f, Screen.height / 2f);
-
         public GameObject ObjectAhead { get; private set; }
 
         private void Start()
@@ -22,7 +20,7 @@ namespace Controllers
         {
             while (true)
             {
-                var ray = playerCamera.ScreenPointToRay(_screenCenterPos);
+                var ray = playerCamera.ScreenPointToRay(ScreenUtils.ScreenCenterPos);
 
                 if (Physics.Raycast(ray, out var hitPoint, maxDistance, itemMask))
                 {
