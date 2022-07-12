@@ -41,8 +41,8 @@ namespace Controllers
             {
                 PerformMovement();
                 LimitCurrentSpeed();
-                
-                yield return new WaitForFixedUpdate();
+
+                yield return CoroutineUtils.CoroutineFixedUpdate;
             }
         }
 

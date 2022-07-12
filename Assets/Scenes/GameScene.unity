@@ -233,7 +233,7 @@ GameObject:
   - component: {fileID: 148068971}
   - component: {fileID: 148068970}
   - component: {fileID: 148068973}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -945,6 +945,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1166131399}
   - component: {fileID: 1166131400}
+  - component: {fileID: 1166131401}
   m_Layer: 0
   m_Name: PlayerHand
   m_TagString: Untagged
@@ -979,7 +980,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeec55a14e3d348ca8bcc7761d16e259, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 963194227}
+  aheadObjectProvider: {fileID: 1166131401}
+--- !u!114 &1166131401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1166131398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5779ff47cc064070958c5f5b4b3662e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemMask:
+    serializedVersion: 2
+    m_Bits: 2048
+  playerCamera: {fileID: 963194227}
   maxDistance: 100
 --- !u!1 &1327107815
 GameObject:
