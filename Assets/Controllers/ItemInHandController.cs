@@ -10,6 +10,8 @@ namespace Controllers
         [SerializeField] private Camera playerCamera;
         [SerializeField] private Transform handTransform;
         [SerializeField] private float moveThreshold;
+        [SerializeField] private float moveInterpolation;
+        [SerializeField] private float maxMoveSpeed;
 
         private Rigidbody _itemRigidbody;
         private Coroutine _itemMoveCoroutine;
@@ -60,7 +62,9 @@ namespace Controllers
             var distanceFromItemToPosition = Vector3.Distance(moveToPosition, itemRigidbody.position);
             if (distanceFromItemToPosition < moveThreshold) return;
 
-            var interpolatedPosition = Vector3.Lerp(itemRigidbody.position, moveToPosition, 0.25f);
+            var interpolatedPosition = Vector3.Lerp(itemRigidbody.position, moveToPosition, moveInterpolation);
+            interpolatedPosition = LimitPositionMaxSpeed(itemRigidbody.position, interpolatedPosition);
+            
             itemRigidbody.MovePosition(interpolatedPosition);
         }
 
@@ -76,6 +80,18 @@ namespace Controllers
             var moveToPositionRay = new Ray(itemPosition, moveDirection);
             var hasSomethingOnMoveWay = Physics.Raycast(moveToPositionRay, out var hit, moveDistance);
             return hasSomethingOnMoveWay ? hit.point : lookAtPoint;
+        }
+
+        private Vector3 LimitPositionMaxSpeed(Vector3 currentPosition, Vector3 moveToPosition)
+        {
+            var moveDistance = Vector3.Distance(currentPosition, moveToPosition);
+            var moveSpeed = moveDistance / Time.fixedDeltaTime;
+            if (moveSpeed <= maxMoveSpeed) return moveToPosition;
+
+            var moveDirection = currentPosition.DirectionTo(moveToPosition);
+            var maxDistance = maxMoveSpeed * Time.fixedDeltaTime;
+
+            return currentPosition + maxDistance * moveDirection;
         }
     }
 }
