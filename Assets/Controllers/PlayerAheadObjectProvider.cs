@@ -29,7 +29,11 @@ namespace Controllers
                 {
                     ProcessFoundObject(hitPoint.collider.gameObject);
                 }
-                else ObjectAhead = null;
+                else if (!ReferenceEquals(ObjectAhead, null))
+                {
+                    print("Object ahead lost: " + ObjectAhead.name);
+                    ObjectAhead = null;
+                }
 
                 yield return new WaitForFixedUpdate();
             }
