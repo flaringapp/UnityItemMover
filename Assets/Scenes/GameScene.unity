@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44792855, g: 0.497927, b: 0.5754831, a: 1}
+  m_IndirectSpecularColor: {r: 0.4479288, g: 0.49792755, b: 0.57548356, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -884,8 +884,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bfc0bf0607b64b1a9f8157a08c6509e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xSensitivity: 10
-  ySensitivity: 10
+  xSensitivity: 1
+  ySensitivity: 1
   cameraTransform: {fileID: 963194228}
   playerTransform: {fileID: 1560771731}
 --- !u!1 &1030819314
@@ -1363,8 +1363,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1560771731}
-  - component: {fileID: 1560771733}
   - component: {fileID: 1560771735}
+  - component: {fileID: 1560771733}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1406,7 +1406,7 @@ MonoBehaviour:
   playerTransform: {fileID: 1560771731}
   playerController: {fileID: 1560771735}
   movementSpeed: 10
-  jumpHeight: 1
+  jumpHeight: 2
   gravity: -19.62
 --- !u!143 &1560771735
 CharacterController:

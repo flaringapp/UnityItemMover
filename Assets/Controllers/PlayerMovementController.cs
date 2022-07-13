@@ -12,7 +12,8 @@ namespace Controllers
         [SerializeField] private float jumpHeight;
         [SerializeField] private float gravity = Physics.gravity.y;
 
-        private Vector3 _jumpVelocity = Vector3.zero;
+        private Vector3 _moveVelocity = Vector3.zero;
+        private bool _hasDoubleJumped;
 
         private void Start()
         {
@@ -30,41 +31,38 @@ namespace Controllers
 
         private void PerformMovement()
         {
+            ProcessGravityForce();
             ProcessSurfaceMovement();
-            ProcessJumpAndGravity();
+            ProcessJump();
+
+            playerController.Move(_moveVelocity * Time.deltaTime);
+        }
+
+        private void ProcessGravityForce()
+        {
+            _moveVelocity.y += gravity * Time.deltaTime;
         }
 
         private void ProcessSurfaceMovement()
         {
             var x = Input.GetAxisRaw("Horizontal") * movementSpeed;
             var z = Input.GetAxisRaw("Vertical") * movementSpeed;
-            
-            if (x == 0 && z == 0) return;
 
             var move = playerTransform.right * x + playerTransform.forward * z;
-
-            playerController.Move(move * Time.deltaTime);
+            move.y += _moveVelocity.y;
+            _moveVelocity = move;
         }
 
-        private void ProcessJumpAndGravity()
+        private void ProcessJump()
         {
-            var isJump = Input.GetButtonDown("Jump");
+            if (!Input.GetButtonDown("Jump")) return;
+
+            var isGrounded = playerController.isGrounded;
+            if (_hasDoubleJumped && !isGrounded) return;
+
+            _hasDoubleJumped = !isGrounded;
             
-            if (_jumpVelocity.y <= 0 && playerController.isGrounded)
-            {
-                _jumpVelocity.y = Input.GetButtonDown("Jump") ? Mathf.Sqrt(jumpHeight * gravity * -2f) : -2f;
-            }
-            else
-            {
-                if (isJump)
-                {
-                    print("is grounded: " + playerController.isGrounded + ", vel: " + _jumpVelocity.y);
-                }
-            }
-
-            _jumpVelocity.y += gravity * Time.deltaTime;
-
-            playerController.Move(_jumpVelocity * Time.deltaTime);
+            _moveVelocity.y = Mathf.Sqrt(jumpHeight * gravity * -2f);
         }
     }
 }
