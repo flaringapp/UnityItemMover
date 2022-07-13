@@ -19,13 +19,17 @@ namespace Controllers
 
         private float _currentSpeed;
         private bool _isSprinting;
+        private Quaternion _lastUngroundedRotation;
         private bool _hasDoubleJumped;
 
-        private void Start()
+        private void Awake()
         {
             _jumpVelocity = Mathf.Sqrt(jumpHeight * gravity * -2f);
             _currentSpeed = movementSpeed;
+        }
 
+        private void Start()
+        {
             StartCoroutine(MovePlayer());
             StartCoroutine(ObserveSprint());
             StartCoroutine(SprintSpeedAdjustment());
@@ -42,30 +46,41 @@ namespace Controllers
 
         private void PerformMovement()
         {
-            ProcessGravityForce();
-            ProcessSurfaceMovement();
-            ProcessJump();
+            if (playerController.isGrounded) ProcessGroundedMovement();
+            else ProcessUngroundedMovement();
 
+            ProcessJump();
+            ProcessGravityForce();
+            
             playerController.Move(_moveVelocity * Time.deltaTime);
-            
-            
         }
 
         private void ProcessGravityForce()
         {
             _moveVelocity.y += gravity * Time.deltaTime;
+            
+            // We don't need Y velocity to grow while player is grounded
+            if (playerController.isGrounded && _moveVelocity.y < 0f)
+                _moveVelocity.y = -0.01f / Time.deltaTime;
         }
 
-        private void ProcessSurfaceMovement()
+        private void ProcessGroundedMovement()
         {
-            if (!playerController.isGrounded) return;
-            
             var x = Input.GetAxisRaw("Horizontal") * _currentSpeed;
             var z = Input.GetAxisRaw("Vertical") * _currentSpeed;
 
             var move = playerTransform.right * x + playerTransform.forward * z;
             move.y += _moveVelocity.y;
             _moveVelocity = move;
+        }
+
+        private void ProcessUngroundedMovement()
+        {
+            var previousRotation = _lastUngroundedRotation;
+            _lastUngroundedRotation = playerTransform.rotation;
+
+            var deltaAngle = Quaternion.Inverse(previousRotation) * _lastUngroundedRotation;
+            _moveVelocity = deltaAngle * _moveVelocity;
         }
 
         private void ProcessJump()
@@ -78,6 +93,7 @@ namespace Controllers
             _hasDoubleJumped = !isGrounded;
 
             _moveVelocity.y = _jumpVelocity;
+            _lastUngroundedRotation = playerTransform.rotation;
         }
 
         private IEnumerator ObserveSprint()

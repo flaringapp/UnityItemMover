@@ -12,10 +12,10 @@ namespace Controllers
 
         [SerializeField] private float minDistanceToItem;
         [SerializeField] private float maxDistanceToItem;
-        
+
         [SerializeField] private float moveThreshold;
         [SerializeField] private float moveInterpolation;
-        
+
         [SerializeField] private float maxDropSpeed;
 
         private Rigidbody _itemRigidbody;
@@ -25,12 +25,12 @@ namespace Controllers
         public bool TakeItem(Rigidbody itemRigidbody)
         {
             if (HasItem) return false;
-            
+
             _itemRigidbody = itemRigidbody;
             _lastItemDistanceChange = Vector3.zero;
 
             itemRigidbody.useGravity = false;
-            
+
             _itemMoveCoroutine = StartCoroutine(MoveItemWithHand(itemRigidbody));
 
             Debug.Log("Item picked: " + itemRigidbody.name);
@@ -46,7 +46,7 @@ namespace Controllers
             _itemMoveCoroutine = null;
 
             _itemRigidbody.useGravity = true;
-            
+
             ApplyForceToItemOnDrop();
 
             Debug.Log("Item dropped: " + _itemRigidbody.name);

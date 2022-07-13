@@ -7,7 +7,7 @@ namespace Controllers
     {
         [SerializeField] private PlayerAheadObjectProvider aheadObjectProvider;
         [SerializeField] private ItemInHandController itemInHandController;
-        
+
         private bool HasItem => itemInHandController.HasItem;
 
         private void Start()
