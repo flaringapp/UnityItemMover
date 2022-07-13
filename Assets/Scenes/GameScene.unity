@@ -1193,9 +1193,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 963194227}
   handTransform: {fileID: 1166131399}
+  minDistanceToItem: 1.5
+  maxDistanceToItem: 5
   moveThreshold: 0.1
   moveInterpolation: 0.2
-  throwForce: 100
   maxDropSpeed: 20
 --- !u!1 &1197965207
 GameObject:

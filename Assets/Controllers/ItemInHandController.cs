@@ -9,6 +9,9 @@ namespace Controllers
 
         [SerializeField] private Camera playerCamera;
         [SerializeField] private Transform handTransform;
+
+        [SerializeField] private float minDistanceToItem;
+        [SerializeField] private float maxDistanceToItem;
         
         [SerializeField] private float moveThreshold;
         [SerializeField] private float moveInterpolation;
@@ -55,6 +58,7 @@ namespace Controllers
         private IEnumerator MoveItemWithHand(Rigidbody itemRigidbody)
         {
             var distanceToItem = Vector3.Distance(handTransform.position, itemRigidbody.position);
+            distanceToItem = Mathf.Clamp(distanceToItem, minDistanceToItem, maxDistanceToItem);
 
             while (true)
             {
