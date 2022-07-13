@@ -11,5 +11,10 @@ namespace Controllers
         {
             while (!Input.GetKeyDown(keyCode)) yield return null;
         }
+        
+        public static IEnumerator WaitForKeyUp(KeyCode keyCode)
+        {
+            while (!Input.GetKeyUp(keyCode)) yield return null;
+        }
     }
 }

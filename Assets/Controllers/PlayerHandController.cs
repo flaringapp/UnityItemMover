@@ -7,8 +7,8 @@ namespace Controllers
     {
         [SerializeField] private PlayerAheadObjectProvider aheadObjectProvider;
         [SerializeField] private ItemInHandController itemInHandController;
-
-        private bool IsItemPicked => itemInHandController.HasItem;
+        
+        private bool HasItem => itemInHandController.HasItem;
 
         private void Start()
         {
@@ -19,16 +19,13 @@ namespace Controllers
         {
             while (true)
             {
-                yield return CoroutineUtils.WaitForKeyDown(KeyCode.F);
-                PickOrDropItem();
+                yield return CoroutineUtils.WaitForKeyDown(KeyCode.Mouse0);
+                if (HasItem) continue;
+                PickItem();
+                yield return CoroutineUtils.WaitForKeyUp(KeyCode.Mouse0);
+                DropItem();
                 yield return null;
             }
-        }
-
-        private void PickOrDropItem()
-        {
-            if (IsItemPicked) DropItem();
-            else PickItem();
         }
 
         // ReSharper disable Unity.PerformanceAnalysis
