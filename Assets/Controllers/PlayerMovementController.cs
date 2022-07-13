@@ -47,6 +47,8 @@ namespace Controllers
             ProcessJump();
 
             playerController.Move(_moveVelocity * Time.deltaTime);
+            
+            
         }
 
         private void ProcessGravityForce()
@@ -56,6 +58,8 @@ namespace Controllers
 
         private void ProcessSurfaceMovement()
         {
+            if (!playerController.isGrounded) return;
+            
             var x = Input.GetAxisRaw("Horizontal") * _currentSpeed;
             var z = Input.GetAxisRaw("Vertical") * _currentSpeed;
 

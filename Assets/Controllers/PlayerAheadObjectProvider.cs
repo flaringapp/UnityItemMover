@@ -28,7 +28,7 @@ namespace Controllers
                 }
                 else if (!ReferenceEquals(ObjectAhead, null))
                 {
-                    print("Object ahead lost: " + ObjectAhead.name);
+                    Debug.Log("Object ahead lost: " + ObjectAhead.name);
                     ObjectAhead = null;
                 }
 
@@ -41,7 +41,7 @@ namespace Controllers
             if (ReferenceEquals(ObjectAhead, foundObjectAhead)) return;
             ObjectAhead = foundObjectAhead;
 
-            print("Object ahead: " + ObjectAhead.name);
+            Debug.Log("Object ahead: " + ObjectAhead.name);
         }
     }
 }

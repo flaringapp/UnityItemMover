@@ -33,7 +33,7 @@ namespace Controllers
             
             _itemMoveCoroutine = StartCoroutine(MoveItemWithHand(itemRigidbody));
 
-            print("Item picked: " + itemRigidbody.name);
+            Debug.Log("Item picked: " + itemRigidbody.name);
 
             return true;
         }
@@ -49,7 +49,7 @@ namespace Controllers
             
             ApplyForceToItemOnDrop();
 
-            print("Item dropped: " + _itemRigidbody.name);
+            Debug.Log("Item dropped: " + _itemRigidbody.name);
             _itemRigidbody = null;
 
             return true;
