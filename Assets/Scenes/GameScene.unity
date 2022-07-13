@@ -1406,6 +1406,7 @@ MonoBehaviour:
   playerTransform: {fileID: 1560771731}
   playerController: {fileID: 1560771735}
   movementSpeed: 10
+  sprintSpeed: 20
   jumpHeight: 2
   gravity: -19.62
 --- !u!143 &1560771735
