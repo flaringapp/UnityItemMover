@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Controllers
 {
@@ -10,6 +11,7 @@ namespace Controllers
 
         [SerializeField] private float movementSpeed;
         [SerializeField] private float sprintSpeed;
+        [SerializeField] private float jumpMovementVelocity;
         [SerializeField] private float jumpHeight;
         [SerializeField] private float gravity = Physics.gravity.y;
 
@@ -75,6 +77,18 @@ namespace Controllers
         }
 
         private void ProcessUngroundedMovement()
+        {
+            FollowPlayerRotation();
+            
+            var x = Input.GetAxisRaw("Horizontal") * jumpMovementVelocity;
+            var z = Input.GetAxisRaw("Vertical") * jumpMovementVelocity;
+            
+            _moveVelocity += playerTransform.right * x + playerTransform.forward * z;
+            _moveVelocity.x = Mathf.Clamp(_moveVelocity.x, -_currentSpeed, _currentSpeed);
+            _moveVelocity.z = Mathf.Clamp(_moveVelocity.z, -_currentSpeed, _currentSpeed);
+        }
+
+        private void FollowPlayerRotation()
         {
             var previousRotation = _lastUngroundedRotation;
             _lastUngroundedRotation = playerTransform.rotation;
