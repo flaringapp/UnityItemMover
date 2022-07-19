@@ -5,7 +5,8 @@ namespace Controllers
 {
     public class ItemInHandController : MonoBehaviour
     {
-        public bool HasItem => _itemRigidbody != null;
+        public Rigidbody CurrentItem { get; private set; }
+        public bool HasItem => CurrentItem != null;
 
         [SerializeField] private Camera playerCamera;
         [SerializeField] private Transform handTransform;
@@ -18,7 +19,6 @@ namespace Controllers
 
         [SerializeField] private float maxDropSpeed;
 
-        private Rigidbody _itemRigidbody;
         private Vector3 _lastItemDistanceChange = Vector3.zero;
         private Coroutine _itemMoveCoroutine;
 
@@ -26,7 +26,7 @@ namespace Controllers
         {
             if (HasItem) return false;
 
-            _itemRigidbody = itemRigidbody;
+            CurrentItem = itemRigidbody;
             _lastItemDistanceChange = Vector3.zero;
 
             itemRigidbody.useGravity = false;
@@ -45,12 +45,12 @@ namespace Controllers
             StopCoroutine(_itemMoveCoroutine);
             _itemMoveCoroutine = null;
 
-            _itemRigidbody.useGravity = true;
+            CurrentItem.useGravity = true;
 
             ApplyForceToItemOnDrop();
 
-            Debug.Log("Item dropped: " + _itemRigidbody.name);
-            _itemRigidbody = null;
+            Debug.Log("Item dropped: " + CurrentItem.name);
+            CurrentItem = null;
 
             return true;
         }
@@ -102,7 +102,7 @@ namespace Controllers
 
             var velocity = _lastItemDistanceChange / Time.fixedDeltaTime;
             var limitedSpeedVelocity = velocity.LimitVelocitySpeed(maxDropSpeed);
-            _itemRigidbody.AddForce(limitedSpeedVelocity, ForceMode.VelocityChange);
+            CurrentItem.AddForce(limitedSpeedVelocity, ForceMode.VelocityChange);
         }
     }
 }

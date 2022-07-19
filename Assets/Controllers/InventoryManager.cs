@@ -1,13 +1,22 @@
+using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using ScriptableObjects;
+using UnityEngine;
 
 namespace Controllers
 {
-    public class InventoryManager
+    public class InventoryManager : MonoBehaviour
     {
+        public static InventoryManager current;
+        
         private readonly Dictionary<InventoryItemData, InventoryItem> _items = new();
         private readonly List<InventoryItem> _inventory = new();
+
+        private void Awake()
+        {
+            current = this;
+        }
 
         [CanBeNull]
         public InventoryItem Get(InventoryItemData itemData)

@@ -22,9 +22,23 @@ namespace Controllers
                 yield return CoroutineUtils.WaitForKeyDown(KeyCode.Mouse0);
                 if (HasItem) continue;
                 PickItem();
-                yield return CoroutineUtils.WaitForKeyUp(KeyCode.Mouse0);
-                DropItem();
+                yield return ObserveInHandInteraction();
                 yield return null;
+            }
+        }
+
+        private IEnumerable ObserveInHandInteraction()
+        {
+            while (true)
+            {
+                if (Input.GetKeyDown(KeyCode.Mouse0))
+                    DropItem();
+                else if (Input.GetKeyDown(KeyCode.E))
+                    TakeItemIntoInventory();
+                else
+                    yield return null;
+
+                break;
             }
         }
 
@@ -41,6 +55,13 @@ namespace Controllers
         private void DropItem()
         {
             itemInHandController.DropItem();
+        }
+
+        private void TakeItemIntoInventory()
+        {
+            var item = itemInHandController.CurrentItem;
+            item.TryGetComponent<InventoryItemObject>(out var inventoryItemObject);
+            inventoryItemObject.HandleBeingPickedUp();
         }
     }
 }
